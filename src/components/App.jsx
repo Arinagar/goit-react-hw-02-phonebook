@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 export class App extends Component {
   state = {
     contacts: [],
+    filter: '',
     name: '',
     number: '',
   };
@@ -12,6 +13,16 @@ export class App extends Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
+    });
+  };
+
+  onFindChange = event => {
+    const { filter, value } = event.target;
+
+    this.setState({ [filter]: value });
+    const { contacts } = this.state;
+    return contacts.filter(contact => {
+      return contact.name.includes(this.state.filter);
     });
   };
 
@@ -27,10 +38,6 @@ export class App extends Component {
         number: '',
       };
     });
-    // this.setState({
-    //   name: '',
-    //   number: '',
-    // });
   };
 
   render() {
@@ -63,12 +70,13 @@ export class App extends Component {
           <button type="submit">Add contact</button>
         </form>
         <h2>Contacts</h2>
+        <p>Find contacts by name</p>
+        <input type="text" name="filter" onChange={this.onFindChange}></input>
         <ul>
           {this.state.contacts.map(el => {
-            console.log(el);
             return (
               <li key={nanoid(10)}>
-                {el.name} {el.number}
+                {el.name}: {el.number}
               </li>
             );
           })}
