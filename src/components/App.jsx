@@ -16,19 +16,21 @@ export class App extends Component {
   };
 
   onSubmitForm = event => {
-    // const data = new FormData(event.target);
-    // console.log([...data.entries()]);
-    // console.log([...data]);
     event.preventDefault();
     this.setState(prevContacts => {
       return {
-        contacts: [...prevContacts.contacts, event],
+        contacts: [
+          ...prevContacts.contacts,
+          { id: nanoid(10), name: this.state.name, number: this.state.number },
+        ],
+        name: '',
+        number: '',
       };
     });
-    this.setState({
-      name: '',
-      number: '',
-    });
+    // this.setState({
+    //   name: '',
+    //   number: '',
+    // });
   };
 
   render() {
